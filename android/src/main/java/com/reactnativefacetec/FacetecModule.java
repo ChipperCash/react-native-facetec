@@ -76,31 +76,51 @@ public class FacetecModule extends ReactContextBaseJavaModule {
     this.onSuccess = onSuccess;
     this.onFail = onFail;
 
-    ZoomSDK.initialize(
-      reactContext,
-      ZoomGlobalState.DeviceLicenseKeyIdentifier,
-      ZoomGlobalState.PublicFaceMapEncryptionKey,
-      new ZoomSDK.InitializeCallback() {
-        @Override
-        public void onCompletion(final boolean successful) {
-          WritableMap params = Arguments.createMap();
-          try{
-            params.putString("initState", ZoomSDK.getStatus(getCurrentActivity()).toString());
-          }catch (Exception e){
-            e.printStackTrace();
-          }
-          if(successful){
-            params.putBoolean("successful", true);
-            onSuccess.invoke(params);
-          }
-          else{
-            onFail.invoke(params);
-            params.putBoolean("successful", false);
-          }
-          //emitDeviceEvent("initialize", params);
+    // ZoomSDK.initialize(
+    //   reactContext,
+    //   ZoomGlobalState.DeviceLicenseKeyIdentifier,
+    //   ZoomGlobalState.PublicFaceMapEncryptionKey,
+    //   new ZoomSDK.InitializeCallback() {
+    //     @Override
+    //     public void onCompletion(final boolean successful) {
+    //       WritableMap params = Arguments.createMap();
+    //       try{
+    //         params.putString("initState", ZoomSDK.getStatus(getCurrentActivity()).toString());
+    //       }catch (Exception e){
+    //         e.printStackTrace();
+    //       }
+    //       if(successful){
+    //         params.putBoolean("successful", true);
+    //         onSuccess.invoke(params);
+    //       }
+    //       else{
+    //         onFail.invoke(params);
+    //         params.putBoolean("successful", false);
+    //       }
+    //       //emitDeviceEvent("initialize", params);
+    //     }
+    //   }
+    // );
+
+    ZoomSDK.initializeWithLicense(reactContext, ZoomGlobalState.LicenseText, ZoomGlobalState.DeviceLicenseKeyIdentifier, ZoomGlobalState.PublicFaceMapEncryptionKey, new ZoomSDK.InitializeCallback() {
+      @Override
+      public void onCompletion(final boolean successful) {
+        WritableMap params = Arguments.createMap();
+        try{
+          params.putString("initState", ZoomSDK.getStatus(getCurrentActivity()).toString());
+        }catch (Exception e){
+          e.printStackTrace();
+        }
+        if(successful){
+          params.putBoolean("successful", true);
+          onSuccess.invoke(params);
+        }
+        else{
+          onFail.invoke(params);
+          params.putBoolean("successful", false);
         }
       }
-    );
+    });
   }
 
     @ReactMethod
