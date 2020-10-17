@@ -145,6 +145,11 @@ public class FacetecModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
+    public void UpdateLoadingUI(boolean success) {
+        latestProcessor.updateLoadingUI(success);
+    }
+
+    @ReactMethod
     public void CheckId(String id, Callback onSuccess, Callback onFail) {
       this.onSuccess = onSuccess;
       this.onFail = onFail;
