@@ -19,6 +19,9 @@ import com.facetec.zoom.sdk.ZoomSDK;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.content.Context;
+import android.util.Log;
+
 public class LivenessCheckProcessor extends Processor implements ZoomFaceMapProcessor {
     ZoomFaceMapResultCallback zoomFaceMapResultCallback;
     ZoomSessionResult latestZoomSessionResult;
