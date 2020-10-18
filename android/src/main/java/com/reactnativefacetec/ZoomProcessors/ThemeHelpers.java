@@ -47,13 +47,13 @@ public class ThemeHelpers {
             // Guidance Customization
             currentCustomization.getGuidanceCustomization().backgroundColors = backgroundColor;
             currentCustomization.getGuidanceCustomization().foregroundColor = primaryColor;
-            currentCustomization.getGuidanceCustomization().headerFont = ResourcesCompat.getFont(context, R.font.nunito_bold);
+            // currentCustomization.getGuidanceCustomization().headerFont = ResourcesCompat.getFont(context, R.font.nunito_bold);
             currentCustomization.getGuidanceCustomization().headerTextSize = 24;
             currentCustomization.getGuidanceCustomization().headerTextSpacing = 0.05f;
-            currentCustomization.getGuidanceCustomization().subtextFont = ResourcesCompat.getFont(context, R.font.nunito_regular);
+            // currentCustomization.getGuidanceCustomization().subtextFont = ResourcesCompat.getFont(context, R.font.nunito_regular);
             currentCustomization.getGuidanceCustomization().subtextTextSize = 14;
             currentCustomization.getGuidanceCustomization().subtextTextSpacing = 0f;
-            currentCustomization.getGuidanceCustomization().buttonFont = ResourcesCompat.getFont(context, R.font.nunito_bold);
+            // currentCustomization.getGuidanceCustomization().buttonFont = ResourcesCompat.getFont(context, R.font.nunito_bold);
             currentCustomization.getGuidanceCustomization().buttonTextSize = 16;
             currentCustomization.getGuidanceCustomization().buttonTextSpacing = 0.05f;
             currentCustomization.getGuidanceCustomization().buttonTextNormalColor = backgroundColor;
@@ -61,7 +61,7 @@ public class ThemeHelpers {
             currentCustomization.getGuidanceCustomization().buttonTextHighlightColor = buttonText;
             currentCustomization.getGuidanceCustomization().buttonBackgroundHighlightColor = Color.parseColor("#565656");
             currentCustomization.getGuidanceCustomization().buttonTextDisabledColor = backgroundColor; //Color.parseColor("#4D1D174F");
-            currentCustomization.getGuidanceCustomization().buttonBackgroundDisabledColor = numio;
+            currentCustomization.getGuidanceCustomization().buttonBackgroundDisabledColor = Color.parseColor("#565656");
             currentCustomization.getGuidanceCustomization().buttonBorderColor = numio;
 
             currentCustomization.getGuidanceCustomization().buttonBorderWidth = 1;
@@ -93,10 +93,10 @@ public class ThemeHelpers {
             currentCustomization.getIdScanCustomization().headerFont = ResourcesCompat.getFont(context, R.font.nunito_bold);
             currentCustomization.getIdScanCustomization().headerTextSize = 24;
             currentCustomization.getIdScanCustomization().headerTextSpacing = 0.05f;
-            currentCustomization.getIdScanCustomization().subtextFont = ResourcesCompat.getFont(context, R.font.nunito_regular);
+            // currentCustomization.getIdScanCustomization().subtextFont = ResourcesCompat.getFont(context, R.font.nunito_regular);
             currentCustomization.getIdScanCustomization().subtextTextSize = 14;
             currentCustomization.getIdScanCustomization().subtextTextSpacing = 0f;
-            currentCustomization.getIdScanCustomization().buttonFont = ResourcesCompat.getFont(context, R.font.nunito_bold);
+            // currentCustomization.getIdScanCustomization().buttonFont = ResourcesCompat.getFont(context, R.font.nunito_bold);
             currentCustomization.getIdScanCustomization().buttonTextSize = 20;
             currentCustomization.getIdScanCustomization().buttonTextSpacing = 0.05f;
             currentCustomization.getIdScanCustomization().buttonTextNormalColor = buttonText;
@@ -128,7 +128,7 @@ public class ThemeHelpers {
             // Result Screen Customization
             currentCustomization.getResultScreenCustomization().backgroundColors = backgroundColor;
             currentCustomization.getResultScreenCustomization().foregroundColor = primaryColor;
-            currentCustomization.getResultScreenCustomization().messageFont  = ResourcesCompat.getFont(context, R.font.nunito_bold);
+            // currentCustomization.getResultScreenCustomization().messageFont  = ResourcesCompat.getFont(context, R.font.nunito_bold);
             currentCustomization.getResultScreenCustomization().messageTextSize = 18;
             currentCustomization.getResultScreenCustomization().messageTextSpacing = 0.05f;
             currentCustomization.getResultScreenCustomization().activityIndicatorColor = primaryColor;
@@ -150,7 +150,7 @@ public class ThemeHelpers {
             // Feedback Customization
             currentCustomization.getFeedbackCustomization().backgroundColors = numio; //primaryColor;
             currentCustomization.getFeedbackCustomization().textColor = backgroundColor;
-            currentCustomization.getFeedbackCustomization().textFont = ResourcesCompat.getFont(context, R.font.nunito_bold);
+            // currentCustomization.getFeedbackCustomization().textFont = ResourcesCompat.getFont(context, R.font.nunito_bold);
             currentCustomization.getFeedbackCustomization().textSize = 18;
             currentCustomization.getFeedbackCustomization().textSpacing = 0.05f;
             currentCustomization.getFeedbackCustomization().cornerRadius = 30;
@@ -188,13 +188,13 @@ public class ThemeHelpers {
        // Guidance Customization
        currentLowLightCustomization.getGuidanceCustomization().backgroundColors = backgroundColor;
        currentLowLightCustomization.getGuidanceCustomization().foregroundColor = primaryColor;
-       currentLowLightCustomization.getGuidanceCustomization().headerFont = ResourcesCompat.getFont(context, R.font.nunito_bold);
+      //  currentLowLightCustomization.getGuidanceCustomization().headerFont = ResourcesCompat.getFont(context, R.font.nunito_bold);
        currentLowLightCustomization.getGuidanceCustomization().headerTextSize = 24;
        currentLowLightCustomization.getGuidanceCustomization().headerTextSpacing = 0.05f;
-       currentLowLightCustomization.getGuidanceCustomization().subtextFont = ResourcesCompat.getFont(context, R.font.nunito_regular);
+      //  currentLowLightCustomization.getGuidanceCustomization().subtextFont = ResourcesCompat.getFont(context, R.font.nunito_regular);
        currentLowLightCustomization.getGuidanceCustomization().subtextTextSize = 14;
        currentLowLightCustomization.getGuidanceCustomization().subtextTextSpacing = 0f;
-       currentLowLightCustomization.getGuidanceCustomization().buttonFont = ResourcesCompat.getFont(context, R.font.nunito_bold);
+      //  currentLowLightCustomization.getGuidanceCustomization().buttonFont = ResourcesCompat.getFont(context, R.font.nunito_bold);
        currentLowLightCustomization.getGuidanceCustomization().buttonTextSize = 16;
        currentLowLightCustomization.getGuidanceCustomization().buttonTextSpacing = 0.05f;
        currentLowLightCustomization.getGuidanceCustomization().buttonTextNormalColor = buttonText;
@@ -232,13 +232,13 @@ public class ThemeHelpers {
        currentLowLightCustomization.getIdScanCustomization().reviewScreenForegroundColor = backgroundColor;
        currentLowLightCustomization.getIdScanCustomization().selectionScreenForegroundColor = primaryColor;
        currentLowLightCustomization.getIdScanCustomization().captureScreenFocusMessageTextColor = primaryColor;
-       currentLowLightCustomization.getIdScanCustomization().headerFont = ResourcesCompat.getFont(context, R.font.nunito_bold);
+      //  currentLowLightCustomization.getIdScanCustomization().headerFont = ResourcesCompat.getFont(context, R.font.nunito_bold);
        currentLowLightCustomization.getIdScanCustomization().headerTextSize = 24;
        currentLowLightCustomization.getIdScanCustomization().headerTextSpacing = 0.05f;
-       currentLowLightCustomization.getIdScanCustomization().subtextFont = ResourcesCompat.getFont(context, R.font.nunito_regular);
+      //  currentLowLightCustomization.getIdScanCustomization().subtextFont = ResourcesCompat.getFont(context, R.font.nunito_regular);
        currentLowLightCustomization.getIdScanCustomization().subtextTextSize = 14;
        currentLowLightCustomization.getIdScanCustomization().subtextTextSpacing = 0f;
-       currentLowLightCustomization.getIdScanCustomization().buttonFont = ResourcesCompat.getFont(context, R.font.nunito_bold);
+      //  currentLowLightCustomization.getIdScanCustomization().buttonFont = ResourcesCompat.getFont(context, R.font.nunito_bold);
        currentLowLightCustomization.getIdScanCustomization().buttonTextSize = 20;
        currentLowLightCustomization.getIdScanCustomization().buttonTextSpacing = 0.05f;
        currentLowLightCustomization.getIdScanCustomization().buttonTextNormalColor = buttonText;
@@ -270,7 +270,7 @@ public class ThemeHelpers {
        // Result Screen Customization
        currentLowLightCustomization.getResultScreenCustomization().backgroundColors = backgroundColor;
        currentLowLightCustomization.getResultScreenCustomization().foregroundColor = primaryColor;
-       currentLowLightCustomization.getResultScreenCustomization().messageFont  = ResourcesCompat.getFont(context, R.font.nunito_bold);
+      //  currentLowLightCustomization.getResultScreenCustomization().messageFont  = ResourcesCompat.getFont(context, R.font.nunito_bold);
        currentLowLightCustomization.getResultScreenCustomization().messageTextSize = 18;
        currentLowLightCustomization.getResultScreenCustomization().messageTextSpacing = 0.05f;
        currentLowLightCustomization.getResultScreenCustomization().activityIndicatorColor = primaryColor;
@@ -292,7 +292,7 @@ public class ThemeHelpers {
        // Feedback Customization
        currentLowLightCustomization.getFeedbackCustomization().backgroundColors = primaryColor;
        currentLowLightCustomization.getFeedbackCustomization().textColor = backgroundColor;
-       currentLowLightCustomization.getFeedbackCustomization().textFont = ResourcesCompat.getFont(context, R.font.nunito_bold);
+      //  currentLowLightCustomization.getFeedbackCustomization().textFont = ResourcesCompat.getFont(context, R.font.nunito_bold);
        currentLowLightCustomization.getFeedbackCustomization().textSize = 18;
        currentLowLightCustomization.getFeedbackCustomization().textSpacing = 0.05f;
        currentLowLightCustomization.getFeedbackCustomization().cornerRadius = 2;
