@@ -68,8 +68,8 @@ public class LivenessCheckProcessor extends Processor implements ZoomFaceMapProc
 
         // cancellation, timeout, etc.
         if (zoomSessionResult.getStatus() != ZoomSessionStatus.SESSION_COMPLETED_SUCCESSFULLY) {
-            zoomFaceMapResultCallback.cancel();
             sessionTokenErrorCallback.onError(zoomSessionResult.getStatus().toString());
+            zoomFaceMapResultCallback.cancel();
             this.zoomFaceMapResultCallback = null;
             return;
         }
