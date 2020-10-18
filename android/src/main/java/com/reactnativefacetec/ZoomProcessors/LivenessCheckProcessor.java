@@ -23,10 +23,12 @@ public class LivenessCheckProcessor extends Processor implements ZoomFaceMapProc
     ZoomFaceMapResultCallback zoomFaceMapResultCallback;
     ZoomSessionResult latestZoomSessionResult;
     SessionTokenSuccessCallback sessionTokenSuccessCallback;
+    SessionTokenErrorCallback sessionTokenErrorCallback;
     private boolean _isSuccess = false;
 
     public LivenessCheckProcessor(final Context context, final SessionTokenErrorCallback sessionTokenErrorCallback, SessionTokenSuccessCallback sessionTokenSuccessCallback) {
         this.sessionTokenSuccessCallback = sessionTokenSuccessCallback;
+        this.sessionTokenErrorCallback = sessionTokenErrorCallback;
         NetworkingHelpers.getSessionToken(new NetworkingHelpers.SessionTokenCallback() {
             @Override
             public void onResponse(String sessionToken) {
@@ -67,6 +69,7 @@ public class LivenessCheckProcessor extends Processor implements ZoomFaceMapProc
         // cancellation, timeout, etc.
         if (zoomSessionResult.getStatus() != ZoomSessionStatus.SESSION_COMPLETED_SUCCESSFULLY) {
             zoomFaceMapResultCallback.cancel();
+            sessionTokenErrorCallback.onError(zoomSessionResult.getStatus().toString());
             this.zoomFaceMapResultCallback = null;
             return;
         }
