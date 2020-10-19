@@ -139,7 +139,7 @@ public class NetworkingHelpers {
         void onError();
     }
 
-    public static void getLicenseKey(final LicenseTextCallback licenseKeyCallback) {
+    public static void getLicenseText(final LicenseTextCallback licenseKeyCallback) {
         // Do the network call and handle result
         okhttp3.Request request = new okhttp3.Request.Builder()
                 .header("X-Device-License-Key", ZoomGlobalState.DeviceLicenseKeyIdentifier)

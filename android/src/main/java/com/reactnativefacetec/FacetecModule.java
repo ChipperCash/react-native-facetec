@@ -26,6 +26,7 @@ import com.reactnativefacetec.ZoomProcessors.Processor;
 import com.reactnativefacetec.ZoomProcessors.ThemeHelpers;
 import com.reactnativefacetec.ZoomProcessors.ZoomGlobalState;
 import com.reactnativefacetec.ZoomProcessors.PhotoIDMatchProcessor;
+import com.reactnativefacetec.ZoomProcessors.NetworkingHelpers;
 
 import java.util.HashMap;
 import java.util.Locale;
@@ -105,26 +106,6 @@ public class FacetecModule extends ReactContextBaseJavaModule {
         WritableMap params = Arguments.createMap();
         params.putBoolean("successful", false);
         onFail.invoke(params);
-      }
-    });
-
-    ZoomSDK.initializeWithLicense(reactContext, ZoomGlobalState.LicenseText, ZoomGlobalState.DeviceLicenseKeyIdentifier, ZoomGlobalState.PublicFaceMapEncryptionKey, new ZoomSDK.InitializeCallback() {
-      @Override
-      public void onCompletion(final boolean successful) {
-        WritableMap params = Arguments.createMap();
-        try{
-          params.putString("initState", ZoomSDK.getStatus(getCurrentActivity()).toString());
-        }catch (Exception e){
-          e.printStackTrace();
-        }
-        if(successful){
-          params.putBoolean("successful", true);
-          onSuccess.invoke(params);
-        }
-        else{
-          onFail.invoke(params);
-          params.putBoolean("successful", false);
-        }
       }
     });
   }
