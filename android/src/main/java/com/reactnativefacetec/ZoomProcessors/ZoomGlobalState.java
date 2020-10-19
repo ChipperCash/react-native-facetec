@@ -11,6 +11,9 @@ public class ZoomGlobalState {
     // Otherwise, your webservice URL.
     public static String ZoomServerBaseURL = "https://api.zoomauth.com/api/v2/biometrics";
 
+        // Chipper Compliance Service URL
+    public static String ChipperComplianceServiceBaseURL = "https://compliance-staging.herokuapp.com";
+
     // The customer-controlled public key used during encryption of FaceMap data.
     // Please see https://dev.zoomlogin.com/zoomsdk/#/licensing-and-encryption-keys for more information.
 
