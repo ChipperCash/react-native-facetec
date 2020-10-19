@@ -111,20 +111,6 @@ public class FacetecModule extends ReactContextBaseJavaModule {
   }
 
     @ReactMethod
-    public void Enroll(String id, Callback onSuccess, Callback onFail) {
-        this.onSuccess = onSuccess;
-        this.onFail = onFail;
-        latestProcessor = new EnrollmentProcessor(id, getCurrentActivity(), sessionTokenErrorCallback, sessionTokenSuccessCallback);
-    }
-
-    @ReactMethod
-    public void AuthenticateUser(String id, Callback onSuccess, Callback onFail) {
-        this.onSuccess = onSuccess;
-        this.onFail = onFail;
-        latestProcessor  = new AuthenticateProcessor(id, getCurrentActivity(), sessionTokenErrorCallback, sessionTokenSuccessCallback);
-    }
-
-    @ReactMethod
     public void LivenessCheck(Callback onSuccess, Callback onFail) {
         this.onSuccess = onSuccess;
         this.onFail = onFail;
@@ -134,13 +120,6 @@ public class FacetecModule extends ReactContextBaseJavaModule {
     @ReactMethod
     public void UpdateLoadingUI(boolean success) {
         latestProcessor.updateLoadingUI(success);
-    }
-
-    @ReactMethod
-    public void CheckId(String id, Callback onSuccess, Callback onFail) {
-      this.onSuccess = onSuccess;
-      this.onFail = onFail;
-      latestProcessor = new PhotoIDMatchProcessor(id,  getCurrentActivity(), sessionTokenErrorCallback, sessionTokenSuccessCallback);
     }
 
     Processor.SessionTokenErrorCallback sessionTokenErrorCallback = new Processor.SessionTokenErrorCallback() {
