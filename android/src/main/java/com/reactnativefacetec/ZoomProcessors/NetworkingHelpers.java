@@ -134,56 +134,6 @@ public class NetworkingHelpers {
         });
     }
 
-    public interface LicenseTextCallback {
-        void onResponse(String licenseText);
-        void onError();
-    }
-
-    public static void getLicenseText(final LicenseTextCallback licenseKeyCallback) {
-        // Do the network call and handle result
-        okhttp3.Request request = new okhttp3.Request.Builder()
-                .header("X-Device-License-Key", ZoomGlobalState.DeviceLicenseKeyIdentifier)
-                .header("User-Agent", ZoomSDK.createZoomAPIUserAgentString(""))
-                .url(ZoomGlobalState.ChipperComplianceServiceBaseURL + "/facetec-config/license")
-                .get()
-                .build();
-
-        getApiClient().newCall(request).enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                e.printStackTrace();
-                Log.d("ZoomSDK", "Failed to fetch facetec license");
-
-                // If this comes from HTTPS cancel call, don't set the sub code to NETWORK_ERROR.
-                if(!e.getMessage().equals(OK_HTTP_RESPONSE_CANCELED)) {
-                    licenseKeyCallback.onError();
-                }
-            }
-
-            @Override
-            public void onResponse(Call call, okhttp3.Response response) throws IOException {
-                String responseString = response.body().string();
-                response.body().close();
-
-                Log.d("ZoomSDK", "Got license " + responseString);
-                try {
-                    JSONObject responseJSON = new JSONObject(responseString);
-                    if(responseJSON.has("license")) {
-                        licenseKeyCallback.onResponse(responseJSON.getString("license"));
-                    }
-                    else {
-                        licenseKeyCallback.onError();
-                    }
-                }
-                catch(JSONException e) {
-                    e.printStackTrace();
-                    Log.d("ZoomSDK", "Could not parse license key fetch response");
-                    licenseKeyCallback.onError();
-                }
-            }
-        });
-    }
-
     // Set up common parameters needed to communicate to the API.
     public static JSONObject getCommonParameters(ZoomSessionResult zoomSessionResult) {
         String zoomFaceMapBase64 = zoomSessionResult.getFaceMetrics().getFaceMapBase64();
