@@ -100,51 +100,5 @@ public class LivenessCheckProcessor extends Processor implements ZoomFaceMapProc
         }
 
         sessionTokenSuccessCallback.onSuccess(result.toString());
-
-        // Create and parse request to ZoOm Server.
-        // NetworkingHelpers.getLivenessCheckResponseFromZoomServer(zoomSessionResult, this.zoomFaceMapResultCallback, new FaceTecManagedAPICallback() {
-        //     @Override
-        //     public void onResponse(JSONObject responseJSON) {
-        //         UXNextStep nextStep = ServerResultHelpers.getLivenessNextStep(responseJSON);
-
-        //         if (nextStep == UXNextStep.Succeed) {
-        //             _isSuccess = true;
-
-        //             JSONObject result = new JSONObject();
-        //             JSONObject images = new JSONObject();
-        //             String base64FaceMapImage = zoomSessionResult.getFaceMetrics().getFaceMapBase64();
-
-        //             try {
-        //                 images.put("base64FaceMapImage", base64FaceMapImage);
-        //                 if (zoomSessionResult.getFaceMetrics().getAuditTrailCompressedBase64().length > 0) {
-        //                     String compressedBase64AuditTrailImage = zoomSessionResult.getFaceMetrics().getAuditTrailCompressedBase64()[0];
-        //                     images.put("base64AuditTrailImage", compressedBase64AuditTrailImage);
-        //                 }
-
-        //                 if (zoomSessionResult.getFaceMetrics().getLowQualityAuditTrailCompressedBase64().length > 0) {
-        //                     String lowQualityBase64AuditTrailImage = zoomSessionResult.getFaceMetrics().getLowQualityAuditTrailCompressedBase64()[0];
-        //                     images.put("base64LowQualityAuditTrailImage", lowQualityBase64AuditTrailImage);
-        //                 }
-        //                 result.put("base64Images", images);
-        //                 result.put("livenessCheckResponse", responseJSON);
-        //                 result.put("zoomSessionId", zoomSessionResult.getSessionId());
-        //                 result.put("zoomAPIUserAgent", ZoomSDK.createZoomAPIUserAgentString(""));
-        //             } catch (JSONException e) {
-        //                 e.printStackTrace();
-        //             }
-
-        //             sessionTokenSuccessCallback.onSuccess(result.toString());
-        //             ZoomCustomization.overrideResultScreenSuccessMessage = "Liveness\nConfirmed";
-        //             zoomFaceMapResultCallback.succeed();
-        //         }
-        //         else if (nextStep == UXNextStep.Retry) {
-        //             zoomFaceMapResultCallback.retry();
-        //         }
-        //         else {
-        //             zoomFaceMapResultCallback.cancel();
-        //         }
-        //     }
-        // });
-
     }
 }
