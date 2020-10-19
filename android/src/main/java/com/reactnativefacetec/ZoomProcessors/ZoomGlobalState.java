@@ -26,11 +26,6 @@ public class ZoomGlobalState {
         "twIDAQAB\n" +
         "-----END PUBLIC KEY-----";
 
-    public static String LicenseText = 
-        "appId      = com.chippercash\n" +
-        "expiryDate = 2020-11-10\n" +
-        "key        = 00304502200297458d060622f0be36dc78a86a3428370081250b6bfcf5e1013477f0562608022100e84bfb972bab94042ddd840bf6beafc187cb37cc7eb2473739cafee661ef6684";
-
     // Used for bookkeeping around demonstrating enrollment/authentication functionality of ZoOm.
     public static String randomUsername = "";
     public static boolean isRandomUsernameEnrolled = false;
