@@ -134,7 +134,7 @@ public class NetworkingHelpers {
         });
     }
 
-    interface LicenseTextCallback {
+    public interface LicenseTextCallback {
         void onResponse(String licenseText);
         void onError();
     }
