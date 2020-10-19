@@ -73,39 +73,27 @@ public class FacetecModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void Init(Callback onSuccess, Callback onFail) {
+    public void Init(String licenseText,  Callback onSuccess, Callback onFail) {
     this.onSuccess = onSuccess;
     this.onFail = onFail;
 
-    NetworkingHelpers.getLicenseText(new NetworkingHelpers.LicenseTextCallback() {
+    ZoomSDK.initializeWithLicense(reactContext, licenseText, ZoomGlobalState.DeviceLicenseKeyIdentifier, ZoomGlobalState.PublicFaceMapEncryptionKey, new ZoomSDK.InitializeCallback() {
       @Override
-      public void onResponse(String licenseText) {
-        ZoomSDK.initializeWithLicense(reactContext, licenseText, ZoomGlobalState.DeviceLicenseKeyIdentifier, ZoomGlobalState.PublicFaceMapEncryptionKey, new ZoomSDK.InitializeCallback() {
-          @Override
-          public void onCompletion(final boolean successful) {
-            WritableMap params = Arguments.createMap();
-            try{
-              params.putString("initState", ZoomSDK.getStatus(getCurrentActivity()).toString());
-            }catch (Exception e){
-              e.printStackTrace();
-            }
-            if(successful){
-              params.putBoolean("successful", true);
-              onSuccess.invoke(params);
-            }
-            else{
-              params.putBoolean("successful", false);
-              onFail.invoke(params);
-            }
-          }
-        });
-      }
-
-      @Override
-      public void onError() {
+      public void onCompletion(final boolean successful) {
         WritableMap params = Arguments.createMap();
-        params.putBoolean("successful", false);
-        onFail.invoke(params);
+        try{
+          params.putString("initState", ZoomSDK.getStatus(getCurrentActivity()).toString());
+        }catch (Exception e){
+          e.printStackTrace();
+        }
+        if(successful){
+          params.putBoolean("successful", true);
+          onSuccess.invoke(params);
+        }
+        else{
+          params.putBoolean("successful", false);
+          onFail.invoke(params);
+        }
       }
     });
   }
