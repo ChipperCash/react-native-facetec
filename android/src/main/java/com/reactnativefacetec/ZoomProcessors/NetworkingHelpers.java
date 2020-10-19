@@ -144,7 +144,7 @@ public class NetworkingHelpers {
         okhttp3.Request request = new okhttp3.Request.Builder()
                 .header("X-Device-License-Key", ZoomGlobalState.DeviceLicenseKeyIdentifier)
                 .header("User-Agent", ZoomSDK.createZoomAPIUserAgentString(""))
-                .url(ZoomGlobalState.ChipperComplianceServiceBaseUrl + "/facetec-config/license")
+                .url(ZoomGlobalState.ChipperComplianceServiceBaseURL + "/facetec-config/license")
                 .get()
                 .build();
 
