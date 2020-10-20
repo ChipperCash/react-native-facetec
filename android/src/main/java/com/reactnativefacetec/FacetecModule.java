@@ -26,6 +26,7 @@ import com.reactnativefacetec.ZoomProcessors.Processor;
 import com.reactnativefacetec.ZoomProcessors.ThemeHelpers;
 import com.reactnativefacetec.ZoomProcessors.ZoomGlobalState;
 import com.reactnativefacetec.ZoomProcessors.PhotoIDMatchProcessor;
+import com.reactnativefacetec.ZoomProcessors.NetworkingHelpers;
 
 import java.util.HashMap;
 import java.util.Locale;
@@ -72,50 +73,30 @@ public class FacetecModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void Init(Callback onSuccess, Callback onFail) {
+    public void Init(String licenseText,  Callback onSuccess, Callback onFail) {
     this.onSuccess = onSuccess;
     this.onFail = onFail;
 
-    ZoomSDK.initialize(
-      reactContext,
-      ZoomGlobalState.DeviceLicenseKeyIdentifier,
-      ZoomGlobalState.PublicFaceMapEncryptionKey,
-      new ZoomSDK.InitializeCallback() {
-        @Override
-        public void onCompletion(final boolean successful) {
-          WritableMap params = Arguments.createMap();
-          try{
-            params.putString("initState", ZoomSDK.getStatus(getCurrentActivity()).toString());
-          }catch (Exception e){
-            e.printStackTrace();
-          }
-          if(successful){
-            params.putBoolean("successful", true);
-            onSuccess.invoke(params);
-          }
-          else{
-            onFail.invoke(params);
-            params.putBoolean("successful", false);
-          }
-          //emitDeviceEvent("initialize", params);
+    ZoomSDK.initializeWithLicense(reactContext, licenseText, ZoomGlobalState.DeviceLicenseKeyIdentifier, ZoomGlobalState.PublicFaceMapEncryptionKey, new ZoomSDK.InitializeCallback() {
+      @Override
+      public void onCompletion(final boolean successful) {
+        WritableMap params = Arguments.createMap();
+        try{
+          params.putString("initState", ZoomSDK.getStatus(getCurrentActivity()).toString());
+        }catch (Exception e){
+          e.printStackTrace();
+        }
+        if(successful){
+          params.putBoolean("successful", true);
+          onSuccess.invoke(params);
+        }
+        else{
+          params.putBoolean("successful", false);
+          onFail.invoke(params);
         }
       }
-    );
+    });
   }
-
-    @ReactMethod
-    public void Enroll(String id, Callback onSuccess, Callback onFail) {
-        this.onSuccess = onSuccess;
-        this.onFail = onFail;
-        latestProcessor = new EnrollmentProcessor(id, getCurrentActivity(), sessionTokenErrorCallback, sessionTokenSuccessCallback);
-    }
-
-    @ReactMethod
-    public void AuthenticateUser(String id, Callback onSuccess, Callback onFail) {
-        this.onSuccess = onSuccess;
-        this.onFail = onFail;
-        latestProcessor  = new AuthenticateProcessor(id, getCurrentActivity(), sessionTokenErrorCallback, sessionTokenSuccessCallback);
-    }
 
     @ReactMethod
     public void LivenessCheck(Callback onSuccess, Callback onFail) {
@@ -125,10 +106,8 @@ public class FacetecModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void CheckId(String id, Callback onSuccess, Callback onFail) {
-      this.onSuccess = onSuccess;
-      this.onFail = onFail;
-      latestProcessor = new PhotoIDMatchProcessor(id,  getCurrentActivity(), sessionTokenErrorCallback, sessionTokenSuccessCallback);
+    public void UpdateLoadingUI(boolean success) {
+        latestProcessor.updateLoadingUI(success);
     }
 
     Processor.SessionTokenErrorCallback sessionTokenErrorCallback = new Processor.SessionTokenErrorCallback() {

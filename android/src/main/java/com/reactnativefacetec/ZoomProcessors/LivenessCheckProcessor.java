@@ -14,17 +14,24 @@ import com.facetec.zoom.sdk.ZoomFaceMapResultCallback;
 import com.facetec.zoom.sdk.ZoomSessionActivity;
 import com.facetec.zoom.sdk.ZoomSessionResult;
 import com.facetec.zoom.sdk.ZoomSessionStatus;
+import com.facetec.zoom.sdk.ZoomSDK;
 
+import org.json.JSONException;
 import org.json.JSONObject;
+
+import android.content.Context;
+import android.util.Log;
 
 public class LivenessCheckProcessor extends Processor implements ZoomFaceMapProcessor {
     ZoomFaceMapResultCallback zoomFaceMapResultCallback;
     ZoomSessionResult latestZoomSessionResult;
     SessionTokenSuccessCallback sessionTokenSuccessCallback;
+    SessionTokenErrorCallback sessionTokenErrorCallback;
     private boolean _isSuccess = false;
 
     public LivenessCheckProcessor(final Context context, final SessionTokenErrorCallback sessionTokenErrorCallback, SessionTokenSuccessCallback sessionTokenSuccessCallback) {
         this.sessionTokenSuccessCallback = sessionTokenSuccessCallback;
+        this.sessionTokenErrorCallback = sessionTokenErrorCallback;
         NetworkingHelpers.getSessionToken(new NetworkingHelpers.SessionTokenCallback() {
             @Override
             public void onResponse(String sessionToken) {
@@ -43,6 +50,16 @@ public class LivenessCheckProcessor extends Processor implements ZoomFaceMapProc
         return _isSuccess;
     }
 
+    // Update zoom loading UI to either success or failed
+    public void updateLoadingUI(final boolean success) {
+        if (success) {
+            ZoomCustomization.overrideResultScreenSuccessMessage = "Liveness\nConfirmed";
+            this.zoomFaceMapResultCallback.succeed();
+        } else {
+            this.zoomFaceMapResultCallback.retry();
+        }
+    }
+
     // Required function that handles calling ZoOm Server to get result and decides how to continue.
     public void processZoomSessionResultWhileZoomWaits(final ZoomSessionResult zoomSessionResult, final ZoomFaceMapResultCallback zoomFaceMapResultCallback) {
         this.latestZoomSessionResult = zoomSessionResult;
@@ -59,26 +76,29 @@ public class LivenessCheckProcessor extends Processor implements ZoomFaceMapProc
             return;
         }
 
-        // Create and parse request to ZoOm Server.
-        NetworkingHelpers.getLivenessCheckResponseFromZoomServer(zoomSessionResult, this.zoomFaceMapResultCallback, new FaceTecManagedAPICallback() {
-            @Override
-            public void onResponse(JSONObject responseJSON) {
-                UXNextStep nextStep = ServerResultHelpers.getLivenessNextStep(responseJSON);
+        JSONObject result = new JSONObject();
+        JSONObject images = new JSONObject();
+        String base64FaceMapImage = zoomSessionResult.getFaceMetrics().getFaceMapBase64();
 
-                if (nextStep == UXNextStep.Succeed) {
-                    _isSuccess = true;
-                    sessionTokenSuccessCallback.onSuccess(responseJSON.toString());
-                    ZoomCustomization.overrideResultScreenSuccessMessage = "Liveness\nConfirmed";
-                    zoomFaceMapResultCallback.succeed();
-                }
-                else if (nextStep == UXNextStep.Retry) {
-                    zoomFaceMapResultCallback.retry();
-                }
-                else {
-                    zoomFaceMapResultCallback.cancel();
-                }
+        try {
+            images.put("base64FaceMapImage", base64FaceMapImage);
+            if (zoomSessionResult.getFaceMetrics().getAuditTrailCompressedBase64().length > 0) {
+                String compressedBase64AuditTrailImage = zoomSessionResult.getFaceMetrics().getAuditTrailCompressedBase64()[0];
+                images.put("base64AuditTrailImage", compressedBase64AuditTrailImage);
             }
-        });
 
+            if (zoomSessionResult.getFaceMetrics().getLowQualityAuditTrailCompressedBase64().length > 0) {
+                String lowQualityBase64AuditTrailImage = zoomSessionResult.getFaceMetrics().getLowQualityAuditTrailCompressedBase64()[0];
+                images.put("base64LowQualityAuditTrailImage", lowQualityBase64AuditTrailImage);
+            }
+
+            result.put("base64Images", images);
+            result.put("zoomSessionId", zoomSessionResult.getSessionId());
+            result.put("zoomAPIUserAgent", ZoomSDK.createZoomAPIUserAgentString(""));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        sessionTokenSuccessCallback.onSuccess(result.toString());
     }
 }
