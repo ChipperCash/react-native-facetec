@@ -96,26 +96,6 @@ public class FacetecModule extends ReactContextBaseJavaModule {
         }
       }
     });
-
-//    FaceTecSDK.initializeWithLicense(reactContext, licenseText, ZoomGlobalState.DeviceLicenseKeyIdentifier, ZoomGlobalState.PublicFaceMapEncryptionKey, new ZoomSDK.InitializeCallback() {
-//      @Override
-//      public void onCompletion(final boolean successful) {
-//        WritableMap params = Arguments.createMap();
-//        try{
-//          params.putString("initState", ZoomSDK.getStatus(getCurrentActivity()).toString());
-//        }catch (Exception e){
-//          e.printStackTrace();
-//        }
-//        if(successful){
-//          params.putBoolean("successful", true);
-//          onSuccess.invoke(params);
-//        }
-//        else{
-//          params.putBoolean("successful", false);
-//          onFail.invoke(params);
-//        }
-//      }
-//    });
   }
 
   @ReactMethod
@@ -131,13 +111,13 @@ public class FacetecModule extends ReactContextBaseJavaModule {
           @Override
           public void onSuccess(String faceScanResult) {
             Log.d("ZoomSDK", "LivenessCheck face scan completed and returned" + faceScanResult);
-            self.onSuccess.invoke(faceScanResult);
+            onSuccess.invoke(faceScanResult);
           }
 
           @Override
           public void onError(String error) {
             Log.d("ZoomSDK", "LivenessCheck was failed with error" + error);
-            self.onFail.invoke();
+            onFail.invoke(error);
           }
         });
       }
@@ -149,26 +129,8 @@ public class FacetecModule extends ReactContextBaseJavaModule {
     }));
   }
 
-//    @ReactMethod
-//    public void UpdateLoadingUI(boolean success) {
-//        latestProcessor.updateLoadingUI(success);
-//    }
-
-//    Processor.SessionTokenErrorCallback sessionTokenErrorCallback = new Processor.SessionTokenErrorCallback() {
-//        @Override
-//        public void onError(String msg) {
-//          try{
-//            onFail.invoke(msg);
-//          }catch (Exception e){
-//            e.printStackTrace();
-//          }
-//        }
-//    };
-//
-//    Processor.SessionTokenSuccessCallback sessionTokenSuccessCallback = new Processor.SessionTokenSuccessCallback() {
-//        @Override
-//        public void onSuccess(String msg) {
-//            onSuccess.invoke(msg);
-//        }
-//    };
+  // @ReactMethod
+  public void UpdateLoadingUI(boolean success) {
+    latestProcessor.updateLoadingUI(success);
+  }
 }
