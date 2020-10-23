@@ -2,11 +2,9 @@
 // FaceTec Device SDK config file.
 // Auto-generated via the FaceTec SDK Configuration Wizard
 //
-package Processors;
+package com.reactnativefacetec.Processors;
 
 import android.content.Context;
-
-import com.facetec.sampleapp.BuildConfig;
 import com.facetec.sdk.*;
 
 public class Config {
@@ -14,7 +12,7 @@ public class Config {
     // REQUIRED
     // Available at https://dev.facetec.com/#/account
     // NOTE: This field is auto-populated by the FaceTec SDK Configuration Wizard.
-    public static String DeviceKeyIdentifier = "INSERT YOUR APP DEVICE KEY HERE";
+    public static String DeviceKeyIdentifier = "dwXrwVA2ar5iw0wT2KWLCQHkq2ekyMK4";
 
     // -------------------------------------
     // REQUIRED
@@ -29,15 +27,15 @@ public class Config {
     // The FaceScan Encryption Key you define for your application.
     // Please see https://dev.facetec.com/#/licensing-and-encryption-keys for more information.
     // NOTE: This field is auto-populated by the FaceTec SDK Configuration Wizard.
-    static String PublicFaceScanEncryptionKey =
+    public static String PublicFaceScanEncryptionKey =
         "-----BEGIN PUBLIC KEY-----\n" +
-        "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA5PxZ3DLj+zP6T6HFgzzk\n" +
-        "M77LdzP3fojBoLasw7EfzvLMnJNUlyRb5m8e5QyyJxI+wRjsALHvFgLzGwxM8ehz\n" +
-        "DqqBZed+f4w33GgQXFZOS4AOvyPbALgCYoLehigLAbbCNTkeY5RDcmmSI/sbp+s6\n" +
-        "mAiAKKvCdIqe17bltZ/rfEoL3gPKEfLXeN549LTj3XBp0hvG4loQ6eC1E1tRzSkf\n" +
-        "GJD4GIVvR+j12gXAaftj3ahfYxioBH7F7HQxzmWkwDyn3bqU54eaiB7f0ftsPpWM\n" +
-        "ceUaqkL2DZUvgN0efEJjnWy5y1/Gkq5GGWCROI9XG/SwXJ30BbVUehTbVcD70+ZF\n" +
-        "8QIDAQAB\n" +
+        "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAv+HDfn7oE26J3g9LRS4D\n" +
+        "FtFiXMigTUarU1GZi8Q487KHxb4mxlPIroY0nOerMZRZr6T6ltKwRO6n6Izld4Ji\n" +
+        "ukjaSF6UcWI+i7NXHqyumO8VcReJscSoV/aGaQNBbenh6seX5+XmOE5erlAw1QqQ\n" +
+        "5Nmji/MSMrNXbWKgSWYYkwzDyth9Yi6KQX2vuhebcduPGnqr3Mi9YXOCtUgAJ83A\n" +
+        "qx0dcmwZ74ysfaUsgoKbRDQxT96Ff0nto6CfXExRG4J9EtQLJS0E4E6ztl0ElwOH\n" +
+        "iNTG3LF46T8PH64rBllt/ejDVZlQIOeRUjNBjnfJ3+0IkBlLLCMmTtvgCJ5kPg3k\n" +
+        "twIDAQAB\n" +
         "-----END PUBLIC KEY-----";
 
     // -------------------------------------

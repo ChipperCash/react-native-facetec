@@ -1,8 +1,11 @@
 // Demonstrates calling the FaceTec Managed Testing API and/or FaceTec Server
-package Processors;
+package com.reactnativefacetec.Processors;
 
 import android.os.Build;
 import androidx.annotation.NonNull;
+
+import com.facetec.sdk.FaceTecSDK;
+
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.InetAddress;
@@ -16,11 +19,15 @@ import okhttp3.Call;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.RequestBody;
+import okhttp3.Callback;
 import okio.BufferedSink;
 import okio.Okio;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSocket;
 import javax.net.ssl.SSLSocketFactory;
+import android.util.Log;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class NetworkingHelpers {
     private static OkHttpClient _apiClient = null;
@@ -75,6 +82,54 @@ public class NetworkingHelpers {
             if (Objects.equals(call.request().tag(), OK_HTTP_BUILDER_TAG))
                 call.cancel();
         }
+    }
+
+    public interface SessionTokenCallback {
+        void onSessionTokenReceived(String sessionToken);
+        void onError(String error);
+    }
+
+    public static void getSessionToken(final SessionTokenCallback sessionTokenCallback) {
+        // Do the network call and handle result
+        okhttp3.Request request = new okhttp3.Request.Builder()
+                .header("X-Device-License-Key", Config.DeviceKeyIdentifier)
+                .header("User-Agent", FaceTecSDK.createFaceTecAPIUserAgentString(""))
+                .url(Config.BaseURL + "/session-token")
+                .get()
+                .build();
+
+        getApiClient().newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
+                Log.d("ZoomSDK", "Exception raised while attempting HTTPS call.");
+
+                // If this comes from HTTPS cancel call, don't set the sub code to NETWORK_ERROR.
+                if(!e.getMessage().equals(OK_HTTP_RESPONSE_CANCELED)) {
+                    sessionTokenCallback.onError(e.getMessage());
+                }
+            }
+
+            @Override
+            public void onResponse(Call call, okhttp3.Response response) throws IOException {
+                String responseString = response.body().string();
+                response.body().close();
+                try {
+                    JSONObject responseJSON = new JSONObject(responseString);
+                    if(responseJSON.has("sessionToken")) {
+                        sessionTokenCallback.onSessionTokenReceived(responseJSON.getString("sessionToken"));
+                    }
+                    else {
+                        sessionTokenCallback.onError("Could not retrieve session token");
+                    }
+                }
+                catch(JSONException e) {
+                    e.printStackTrace();
+                    Log.d("ZoomSDK", "Exception raised while attempting to parse JSON result.");
+                    sessionTokenCallback.onError(e.getMessage());
+                }
+            }
+        });
     }
 }
 

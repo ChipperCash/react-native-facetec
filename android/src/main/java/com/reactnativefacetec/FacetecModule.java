@@ -16,36 +16,33 @@ import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
-import com.facetec.zoom.sdk.ZoomCustomization;
-import com.facetec.zoom.sdk.ZoomGuidanceCustomization;
-import com.facetec.zoom.sdk.ZoomSDK;
-import com.reactnativefacetec.ZoomProcessors.AuthenticateProcessor;
-import com.reactnativefacetec.ZoomProcessors.EnrollmentProcessor;
-import com.reactnativefacetec.ZoomProcessors.LivenessCheckProcessor;
-import com.reactnativefacetec.ZoomProcessors.Processor;
-import com.reactnativefacetec.ZoomProcessors.ThemeHelpers;
-import com.reactnativefacetec.ZoomProcessors.ZoomGlobalState;
-import com.reactnativefacetec.ZoomProcessors.PhotoIDMatchProcessor;
-import com.reactnativefacetec.ZoomProcessors.NetworkingHelpers;
+import com.reactnativefacetec.Processors.*;
+import com.facetec.sdk.FaceTecCustomization;
+import com.facetec.sdk.FaceTecGuidanceCustomization;
+import com.facetec.sdk.FaceTecSDK;
 
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+
+import static java.util.UUID.randomUUID;
 
 public class FacetecModule extends ReactContextBaseJavaModule {
     public static final String REACT_CLASS = "Facetec";
     private static ReactApplicationContext reactContext = null;
     public Processor latestProcessor;
 
-  Callback onSuccess;
-  Callback onFail;
+    Callback onSuccess;
+    Callback onFail;
+    Callback onFaceScanDone;
+    private FacetecModule self;
 
     public FacetecModule(ReactApplicationContext context) {
         // Pass in the context to the constructor and save it so you can emit events
         // https://facebook.github.io/react-native/docs/native-modules-android.html#the-toast-module
         super(context);
         reactContext = context;
-        ThemeHelpers themeHelpers = new ThemeHelpers(context);
+        ThemeHelpers themeHelpers = new ThemeHelpers();
         themeHelpers.setAppTheme("Sample Bank");
     }
 
@@ -77,54 +74,109 @@ public class FacetecModule extends ReactContextBaseJavaModule {
     this.onSuccess = onSuccess;
     this.onFail = onFail;
 
-    ZoomSDK.initializeWithLicense(reactContext, licenseText, ZoomGlobalState.DeviceLicenseKeyIdentifier, ZoomGlobalState.PublicFaceMapEncryptionKey, new ZoomSDK.InitializeCallback() {
-      @Override
-      public void onCompletion(final boolean successful) {
-        WritableMap params = Arguments.createMap();
-        try{
-          params.putString("initState", ZoomSDK.getStatus(getCurrentActivity()).toString());
-        }catch (Exception e){
-          e.printStackTrace();
+    FaceTecSDK.initializeInDevelopmentMode(reactContext, Config.DeviceKeyIdentifier, Config.PublicFaceScanEncryptionKey, new FaceTecSDK.InitializeCallback() {
+        @Override
+        public void onCompletion(boolean successful) {
+            WritableMap params = Arguments.createMap();
+            Log.d("ZoomSDK", "Attempt initialization");
+            try{
+                params.putString("initState", FaceTecSDK.getStatus(getCurrentActivity()).toString());
+            }catch (Exception e){
+                Log.d("ZoomSDK", "Could not putString()");
+                e.printStackTrace();
+            }
+            if(successful){
+                Log.d("ZoomSDK", "successfull");
+                params.putBoolean("successful", true);
+                onSuccess.invoke(params);
+            }
+            else{
+                Log.d("ZoomSDK", "not successful");
+                params.putBoolean("successful", false);
+                onFail.invoke(params);
+            }
         }
-        if(successful){
-          params.putBoolean("successful", true);
-          onSuccess.invoke(params);
-        }
-        else{
-          params.putBoolean("successful", false);
-          onFail.invoke(params);
-        }
-      }
     });
+
+//    FaceTecSDK.initializeWithLicense(reactContext, licenseText, ZoomGlobalState.DeviceLicenseKeyIdentifier, ZoomGlobalState.PublicFaceMapEncryptionKey, new ZoomSDK.InitializeCallback() {
+//      @Override
+//      public void onCompletion(final boolean successful) {
+//        WritableMap params = Arguments.createMap();
+//        try{
+//          params.putString("initState", ZoomSDK.getStatus(getCurrentActivity()).toString());
+//        }catch (Exception e){
+//          e.printStackTrace();
+//        }
+//        if(successful){
+//          params.putBoolean("successful", true);
+//          onSuccess.invoke(params);
+//        }
+//        else{
+//          params.putBoolean("successful", false);
+//          onFail.invoke(params);
+//        }
+//      }
+//    });
   }
 
     @ReactMethod
-    public void LivenessCheck(Callback onSuccess, Callback onFail) {
+    public void LivenessCheck(Callback onSuccess, Callback onFail, Callback onFaceScanDone) {
         this.onSuccess = onSuccess;
         this.onFail = onFail;
-        latestProcessor = new LivenessCheckProcessor( getCurrentActivity(), sessionTokenErrorCallback, sessionTokenSuccessCallback);
+        this.onFaceScanDone = onFaceScanDone;
+
+        NetworkingHelpers.getSessionToken((new NetworkingHelpers.SessionTokenCallback() {
+            @Override
+            public void onSessionTokenReceived(String sessionToken) {
+                Log.d("ZoomSDK", "Got token back" + sessionToken);
+                latestProcessor = new LivenessCheckProcessor(sessionToken, getCurrentActivity(), new LivenessCheckProcessor.LivenessCheckCallback() {
+                    @Override
+                    public void onSuccess() {
+                        Log.d("ZoomSDK", "LivenessCheck was successful");
+                        self.onSuccess.invoke();
+                    }
+
+                    @Override
+                    public void onError(String error) {
+                        Log.d("ZoomSDK", "LivenessCheck was failed with error" + error);
+                        self.onFail.invoke();
+                    }
+
+                    @Override
+                    public void onFaceScanDone(String faceScanResult) {
+                        Log.d("ZoomSDK", "LivenessCheck face scan completed and returned" + faceScanResult);
+                        self.onFaceScanDone.invoke(faceScanResult);
+                    }
+                });
+            }
+
+            @Override
+            public void onError(String error) {
+                Log.d("ZoomSDK", "Exception raised while attempting HTTPS call.");
+            }
+        }));
     }
 
-    @ReactMethod
-    public void UpdateLoadingUI(boolean success) {
-        latestProcessor.updateLoadingUI(success);
-    }
+//    @ReactMethod
+//    public void UpdateLoadingUI(boolean success) {
+//        latestProcessor.updateLoadingUI(success);
+//    }
 
-    Processor.SessionTokenErrorCallback sessionTokenErrorCallback = new Processor.SessionTokenErrorCallback() {
-        @Override
-        public void onError(String msg) {
-          try{
-            onFail.invoke(msg);
-          }catch (Exception e){
-            e.printStackTrace();
-          }
-        }
-    };
-
-    Processor.SessionTokenSuccessCallback sessionTokenSuccessCallback = new Processor.SessionTokenSuccessCallback() {
-        @Override
-        public void onSuccess(String msg) {
-            onSuccess.invoke(msg);
-        }
-    };
+//    Processor.SessionTokenErrorCallback sessionTokenErrorCallback = new Processor.SessionTokenErrorCallback() {
+//        @Override
+//        public void onError(String msg) {
+//          try{
+//            onFail.invoke(msg);
+//          }catch (Exception e){
+//            e.printStackTrace();
+//          }
+//        }
+//    };
+//
+//    Processor.SessionTokenSuccessCallback sessionTokenSuccessCallback = new Processor.SessionTokenSuccessCallback() {
+//        @Override
+//        public void onSuccess(String msg) {
+//            onSuccess.invoke(msg);
+//        }
+//    };
 }

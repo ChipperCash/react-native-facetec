@@ -1,10 +1,10 @@
-package Processors;
+package com.reactnativefacetec.Processors;
 
 import android.graphics.Color;
 import android.graphics.Rect;
 import android.graphics.Typeface;
 
-import com.facetec.sampleapp.R;
+import com.reactnativefacetec.R;
 import com.facetec.sdk.FaceTecCancelButtonCustomization;
 import com.facetec.sdk.FaceTecCustomization;
 import com.facetec.sdk.FaceTecSDK;
@@ -22,7 +22,7 @@ public class ThemeHelpers {
     public static FaceTecCustomization getCustomizationForTheme(String theme) {
         FaceTecCustomization currentCustomization = new FaceTecCustomization();
 
-        int[] retryScreenSlideshowImages = new int[]{R.drawable.ideal_image_1, R.drawable.ideal_image_2, R.drawable.ideal_image_3, R.drawable.ideal_image_4, R.drawable.ideal_image_5};
+        int[] retryScreenSlideshowImages = new int[]{R.drawable.zoom_ideal_1, R.drawable.zoom_ideal_2, R.drawable.zoom_ideal_3, R.drawable.zoom_ideal_4, R.drawable.zoom_ideal_5};
 
         if(theme.equals("FaceTec Theme")) {
             currentCustomization = new FaceTecCustomization();
@@ -113,8 +113,8 @@ public class ThemeHelpers {
             currentCustomization.getIdScanCustomization().captureFrameStrokeColor = primaryColor;
             currentCustomization.getIdScanCustomization().captureFrameStrokeWidth = 2;
             currentCustomization.getIdScanCustomization().captureFrameCornerRadius = 12;
-            currentCustomization.getIdScanCustomization().activeTorchButtonImage = R.drawable.active_torch;
-            currentCustomization.getIdScanCustomization().inactiveTorchButtonImage = R.drawable.inactive_torch;
+            currentCustomization.getIdScanCustomization().activeTorchButtonImage = R.drawable.zoom_active_torch;
+            currentCustomization.getIdScanCustomization().inactiveTorchButtonImage = R.drawable.zoom_inactive_torch;
             // Result Screen Customization
             currentCustomization.getResultScreenCustomization().backgroundColors = backgroundColor;
             currentCustomization.getResultScreenCustomization().foregroundColor = primaryColor;
@@ -265,8 +265,8 @@ public class ThemeHelpers {
             currentCustomization.getIdScanCustomization().captureFrameStrokeColor = primaryColor;
             currentCustomization.getIdScanCustomization().captureFrameStrokeWidth = 2;
             currentCustomization.getIdScanCustomization().captureFrameCornerRadius = 12;
-            currentCustomization.getIdScanCustomization().activeTorchButtonImage = R.drawable.active_torch;
-            currentCustomization.getIdScanCustomization().inactiveTorchButtonImage = R.drawable.inactive_torch;
+            currentCustomization.getIdScanCustomization().activeTorchButtonImage = R.drawable.zoom_active_torch;
+            currentCustomization.getIdScanCustomization().inactiveTorchButtonImage = R.drawable.zoom_inactive_torch;
             // Result Screen Customization
             currentCustomization.getResultScreenCustomization().backgroundColors = backgroundColor;
             currentCustomization.getResultScreenCustomization().foregroundColor = primaryColor;
@@ -548,8 +548,8 @@ public class ThemeHelpers {
             currentCustomization.getIdScanCustomization().captureFrameStrokeColor = primaryColor;
             currentCustomization.getIdScanCustomization().captureFrameStrokeWidth = 2;
             currentCustomization.getIdScanCustomization().captureFrameCornerRadius = 12;
-            currentCustomization.getIdScanCustomization().activeTorchButtonImage = R.drawable.active_torch;
-            currentCustomization.getIdScanCustomization().inactiveTorchButtonImage = R.drawable.inactive_torch;
+            currentCustomization.getIdScanCustomization().activeTorchButtonImage = R.drawable.zoom_active_torch;
+            currentCustomization.getIdScanCustomization().inactiveTorchButtonImage = R.drawable.zoom_inactive_torch;
             // Result Screen Customization
             currentCustomization.getResultScreenCustomization().backgroundColors = backgroundColor;
             currentCustomization.getResultScreenCustomization().foregroundColor = secondaryColor;
@@ -731,7 +731,7 @@ public class ThemeHelpers {
     static FaceTecCustomization getLowLightCustomizationForTheme(String theme) {
         FaceTecCustomization currentLowLightCustomization = getCustomizationForTheme(theme);
 
-        int[] retryScreenSlideshowImages = new int[]{R.drawable.ideal_image_1, R.drawable.ideal_image_2, R.drawable.ideal_image_3, R.drawable.ideal_image_4, R.drawable.ideal_image_5};
+        int[] retryScreenSlideshowImages = new int[]{R.drawable.zoom_ideal_1, R.drawable.zoom_ideal_2, R.drawable.zoom_ideal_3, R.drawable.zoom_ideal_4, R.drawable.zoom_ideal_5};
 
         if(theme.equals("FaceTec Theme")) {
             currentLowLightCustomization = null;
