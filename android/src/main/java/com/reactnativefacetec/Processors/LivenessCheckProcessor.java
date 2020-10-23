@@ -28,7 +28,7 @@ public class LivenessCheckProcessor extends Processor implements FaceTecFaceScan
     LivenessCheckCallback callback;
 
     public interface LivenessCheckCallback {
-        void onSuccess();
+        void onSuccess(String faceScanResult);
         void onError(String error);
     }
 //    private SampleAppActivity sampleAppActivity;
