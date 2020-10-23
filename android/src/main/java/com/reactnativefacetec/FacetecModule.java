@@ -34,7 +34,6 @@ public class FacetecModule extends ReactContextBaseJavaModule {
 
     Callback onSuccess;
     Callback onFail;
-    Callback onFaceScanDone;
     private FacetecModule self;
 
     public FacetecModule(ReactApplicationContext context) {
@@ -120,10 +119,9 @@ public class FacetecModule extends ReactContextBaseJavaModule {
   }
 
     @ReactMethod
-    public void LivenessCheck(Callback onSuccess, Callback onFail, Callback onFaceScanDone) {
+    public void LivenessCheck(Callback onSuccess, Callback onFail) {
         this.onSuccess = onSuccess;
         this.onFail = onFail;
-        this.onFaceScanDone = onFaceScanDone;
 
         NetworkingHelpers.getSessionToken((new NetworkingHelpers.SessionTokenCallback() {
             @Override
@@ -132,20 +130,14 @@ public class FacetecModule extends ReactContextBaseJavaModule {
                 latestProcessor = new LivenessCheckProcessor(sessionToken, getCurrentActivity(), new LivenessCheckProcessor.LivenessCheckCallback() {
                     @Override
                     public void onSuccess() {
-                        Log.d("ZoomSDK", "LivenessCheck was successful");
-                        self.onSuccess.invoke();
+                        Log.d("ZoomSDK", "LivenessCheck face scan completed and returned" + faceScanResult);
+                        self.onFaceScanDone.invoke(faceScanResult);
                     }
 
                     @Override
                     public void onError(String error) {
                         Log.d("ZoomSDK", "LivenessCheck was failed with error" + error);
                         self.onFail.invoke();
-                    }
-
-                    @Override
-                    public void onFaceScanDone(String faceScanResult) {
-                        Log.d("ZoomSDK", "LivenessCheck face scan completed and returned" + faceScanResult);
-                        self.onFaceScanDone.invoke(faceScanResult);
                     }
                 });
             }

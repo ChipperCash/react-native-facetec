@@ -30,7 +30,6 @@ public class LivenessCheckProcessor extends Processor implements FaceTecFaceScan
     public interface LivenessCheckCallback {
         void onSuccess();
         void onError(String error);
-        void onFaceScanDone(String faceScanResult);
     }
 //    private SampleAppActivity sampleAppActivity;
 
@@ -95,12 +94,13 @@ public class LivenessCheckProcessor extends Processor implements FaceTecFaceScan
             result.put("base64Images", images);
             result.put("zoomSessionId", sessionResult.getSessionId());
             result.put("zoomAPIUserAgent", FaceTecSDK.createFaceTecAPIUserAgentString(""));
+            callback.onSuccess(result.toString());
         } catch (JSONException e) {
             e.printStackTrace();
             callback.onError(e.getMessage());
         }
 
-        callback.onFaceScanDone(result.toString());
+
 
 
 
