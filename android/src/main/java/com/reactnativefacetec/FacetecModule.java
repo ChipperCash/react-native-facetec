@@ -28,73 +28,73 @@ import java.util.Map;
 import static java.util.UUID.randomUUID;
 
 public class FacetecModule extends ReactContextBaseJavaModule {
-    public static final String REACT_CLASS = "Facetec";
-    private static ReactApplicationContext reactContext = null;
-    public Processor latestProcessor;
+  public static final String REACT_CLASS = "Facetec";
+  private static ReactApplicationContext reactContext = null;
+  public Processor latestProcessor;
 
-    Callback onSuccess;
-    Callback onFail;
-    private FacetecModule self;
+  Callback onSuccess;
+  Callback onFail;
+  private FacetecModule self;
 
-    public FacetecModule(ReactApplicationContext context) {
-        // Pass in the context to the constructor and save it so you can emit events
-        // https://facebook.github.io/react-native/docs/native-modules-android.html#the-toast-module
-        super(context);
-        reactContext = context;
-        ThemeHelpers themeHelpers = new ThemeHelpers();
-        themeHelpers.setAppTheme("Sample Bank");
-    }
+  public FacetecModule(ReactApplicationContext context) {
+    // Pass in the context to the constructor and save it so you can emit events
+    // https://facebook.github.io/react-native/docs/native-modules-android.html#the-toast-module
+    super(context);
+    reactContext = context;
+    ThemeHelpers themeHelpers = new ThemeHelpers();
+    themeHelpers.setAppTheme("Sample Bank");
+  }
 
-    @Override
-    public String getName() {
-        // Tell React the name of the module
-        // https://facebook.github.io/react-native/docs/native-modules-android.html#the-toast-module
-        return REACT_CLASS;
-    }
+  @Override
+  public String getName() {
+    // Tell React the name of the module
+    // https://facebook.github.io/react-native/docs/native-modules-android.html#the-toast-module
+    return REACT_CLASS;
+  }
 
-    @Override
-    public Map<String, Object> getConstants() {
-        // Export any constants to be used in your native module
-        // https://facebook.github.io/react-native/docs/native-modules-android.html#the-toast-module
-        final Map<String, Object> constants = new HashMap<>();
-        constants.put("EXAMPLE_CONSTANT", "example");
+  @Override
+  public Map<String, Object> getConstants() {
+    // Export any constants to be used in your native module
+    // https://facebook.github.io/react-native/docs/native-modules-android.html#the-toast-module
+    final Map<String, Object> constants = new HashMap<>();
+    constants.put("EXAMPLE_CONSTANT", "example");
 
-        return constants;
-    }
+    return constants;
+  }
 
-    private static void emitDeviceEvent(String eventName, @Nullable WritableMap eventData) {
-        // A method for emitting from the native side to JS
-        // https://facebook.github.io/react-native/docs/native-modules-android.html#sending-events-to-javascript
-        reactContext.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class).emit(eventName, eventData);
-    }
+  private static void emitDeviceEvent(String eventName, @Nullable WritableMap eventData) {
+    // A method for emitting from the native side to JS
+    // https://facebook.github.io/react-native/docs/native-modules-android.html#sending-events-to-javascript
+    reactContext.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class).emit(eventName, eventData);
+  }
 
-    @ReactMethod
-    public void Init(String licenseText,  Callback onSuccess, Callback onFail) {
+  @ReactMethod
+  public void Init(String licenseText,  Callback onSuccess, Callback onFail) {
     this.onSuccess = onSuccess;
     this.onFail = onFail;
 
     FaceTecSDK.initializeInDevelopmentMode(reactContext, Config.DeviceKeyIdentifier, Config.PublicFaceScanEncryptionKey, new FaceTecSDK.InitializeCallback() {
-        @Override
-        public void onCompletion(boolean successful) {
-            WritableMap params = Arguments.createMap();
-            Log.d("ZoomSDK", "Attempt initialization");
-            try{
-                params.putString("initState", FaceTecSDK.getStatus(getCurrentActivity()).toString());
-            }catch (Exception e){
-                Log.d("ZoomSDK", "Could not putString()");
-                e.printStackTrace();
-            }
-            if(successful){
-                Log.d("ZoomSDK", "successfull");
-                params.putBoolean("successful", true);
-                onSuccess.invoke(params);
-            }
-            else{
-                Log.d("ZoomSDK", "not successful");
-                params.putBoolean("successful", false);
-                onFail.invoke(params);
-            }
+      @Override
+      public void onCompletion(boolean successful) {
+        WritableMap params = Arguments.createMap();
+        Log.d("ZoomSDK", "Attempt initialization");
+        try{
+          params.putString("initState", FaceTecSDK.getStatus(getCurrentActivity()).toString());
+        }catch (Exception e){
+          Log.d("ZoomSDK", "Could not putString()");
+          e.printStackTrace();
         }
+        if(successful){
+          Log.d("ZoomSDK", "successfull");
+          params.putBoolean("successful", true);
+          onSuccess.invoke(params);
+        }
+        else{
+          Log.d("ZoomSDK", "not successful");
+          params.putBoolean("successful", false);
+          onFail.invoke(params);
+        }
+      }
     });
 
 //    FaceTecSDK.initializeWithLicense(reactContext, licenseText, ZoomGlobalState.DeviceLicenseKeyIdentifier, ZoomGlobalState.PublicFaceMapEncryptionKey, new ZoomSDK.InitializeCallback() {
@@ -118,36 +118,36 @@ public class FacetecModule extends ReactContextBaseJavaModule {
 //    });
   }
 
-    @ReactMethod
-    public void LivenessCheck(Callback onSuccess, Callback onFail) {
-        this.onSuccess = onSuccess;
-        this.onFail = onFail;
+  @ReactMethod
+  public void LivenessCheck(Callback onSuccess, Callback onFail) {
+    this.onSuccess = onSuccess;
+    this.onFail = onFail;
 
-        NetworkingHelpers.getSessionToken((new NetworkingHelpers.SessionTokenCallback() {
-            @Override
-            public void onSessionTokenReceived(String sessionToken) {
-                Log.d("ZoomSDK", "Got token back" + sessionToken);
-                latestProcessor = new LivenessCheckProcessor(sessionToken, getCurrentActivity(), new LivenessCheckProcessor.LivenessCheckCallback() {
-                    @Override
-                    public void onSuccess() {
-                        Log.d("ZoomSDK", "LivenessCheck face scan completed and returned" + faceScanResult);
-                        self.onFaceScanDone.invoke(faceScanResult);
-                    }
+    NetworkingHelpers.getSessionToken((new NetworkingHelpers.SessionTokenCallback() {
+      @Override
+      public void onSessionTokenReceived(String sessionToken) {
+        Log.d("ZoomSDK", "Got token back" + sessionToken);
+        latestProcessor = new LivenessCheckProcessor(sessionToken, getCurrentActivity(), new LivenessCheckProcessor.LivenessCheckCallback() {
+          @Override
+          public void onSuccess(String faceScanResult) {
+            Log.d("ZoomSDK", "LivenessCheck face scan completed and returned" + faceScanResult);
+            self.onSuccess.invoke(faceScanResult);
+          }
 
-                    @Override
-                    public void onError(String error) {
-                        Log.d("ZoomSDK", "LivenessCheck was failed with error" + error);
-                        self.onFail.invoke();
-                    }
-                });
-            }
+          @Override
+          public void onError(String error) {
+            Log.d("ZoomSDK", "LivenessCheck was failed with error" + error);
+            self.onFail.invoke();
+          }
+        });
+      }
 
-            @Override
-            public void onError(String error) {
-                Log.d("ZoomSDK", "Exception raised while attempting HTTPS call.");
-            }
-        }));
-    }
+      @Override
+      public void onError(String error) {
+        Log.d("ZoomSDK", "Exception raised while attempting HTTPS call.");
+      }
+    }));
+  }
 
 //    @ReactMethod
 //    public void UpdateLoadingUI(boolean success) {
