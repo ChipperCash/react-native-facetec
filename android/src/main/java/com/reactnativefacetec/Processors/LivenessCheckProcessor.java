@@ -15,7 +15,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import java.io.IOException;
 
-//import com.facetec.sampleapp.SampleAppActivity;
 import com.facetec.sdk.*;
 
 // This is an example self-contained class to perform Liveness Checks with the FaceTec SDK.
@@ -52,10 +51,13 @@ public class LivenessCheckProcessor extends Processor implements FaceTecFaceScan
 
   // Update zoom loading UI to either success or failed
   public void updateLoadingUI(final boolean success) {
+    Log.d("ZoomSDK", "LIVENESS - called update loading UI");
     if (success) {
+      Log.d("ZoomSDK", "LIVENESS - SUCCESS - finish");
       FaceTecCustomization.overrideResultScreenSuccessMessage = "Liveness\nConfirmed";
       this.scanResultCallback.succeed();
     } else {
+      Log.d("ZoomSDK", "LIVENESS - FAILED - retry");
       this.scanResultCallback.retry();
     }
   }
@@ -86,8 +88,6 @@ public class LivenessCheckProcessor extends Processor implements FaceTecFaceScan
     //
     // Part 4:  Get essential data off the FaceTecSessionResult
     //
-
-
     JSONObject result = new JSONObject();
     JSONObject images = new JSONObject();
     String base64FaceMapImage = sessionResult.getFaceScanBase64();
@@ -112,112 +112,6 @@ public class LivenessCheckProcessor extends Processor implements FaceTecFaceScan
       e.printStackTrace();
       callback.onError(e.getMessage());
     }
-
-
-
-
-
-
-
-
-
-
-
-//        JSONObject parameters = new JSONObject();
-//        try {
-//            parameters.put("faceScan", sessionResult.getFaceScanBase64());
-//            parameters.put("auditTrailImage", sessionResult.getAuditTrailCompressedBase64()[0]);
-//            parameters.put("lowQualityAuditTrailImage", sessionResult.getLowQualityAuditTrailCompressedBase64()[0]);
-//        }
-//        catch(JSONException e) {
-//            e.printStackTrace();
-//            Log.d("FaceTecSDKSampleApp", "Exception raised while attempting to create JSON payload for upload.");
-//        }
-
-    //
-    // Part 5:  Make the Networking Call to Your Servers.  Below is just example code, you are free to customize based on how your own API works.
-    //
-//        okhttp3.Request request = new okhttp3.Request.Builder()
-//            .url(Config.BaseURL + "/liveness-3d")
-//            .header("Content-Type", "application/json")
-//            .header("X-Device-Key", Config.DeviceKeyIdentifier)
-//            .header("User-Agent", FaceTecSDK.createFaceTecAPIUserAgentString(sessionResult.getSessionId()))
-//
-//            //
-//            // Part 7:  Demonstrates updating the Progress Bar based on the progress event.
-//            //
-//            .post(new ProgressRequestBody(RequestBody.create(MediaType.parse("application/json; charset=utf-8"), parameters.toString()),
-//                new ProgressRequestBody.Listener() {
-//                    @Override
-//                    public void onUploadProgressChanged(long bytesWritten, long totalBytes) {
-//                        final float uploadProgressPercent = ((float)bytesWritten) / ((float)totalBytes);
-//                        faceScanResultCallback.uploadProgress(uploadProgressPercent);
-//                    }
-//                }))
-//            .build();
-
-//        //
-//        // Part 8:  Actually send the request.
-//        //
-//        NetworkingHelpers.getApiClient().newCall(request).enqueue(new Callback() {
-//            @Override
-//            public void onResponse(Call call, okhttp3.Response response) throws IOException {
-//                //
-//                // Part 6:  In our Sample, we evaluate a boolean response and treat true as success, false as "User Needs to Retry",
-//                // and handle all other non-nominal responses by cancelling out.  You may have different paradigms in your own API and are free to customize based on these.
-//                //
-//                String responseString = response.body().string();
-//                response.body().close();
-//                try {
-//                    JSONObject responseJSON = new JSONObject(responseString);
-//
-//                    //
-//                    // DEVELOPER NOTE:  These properties are for demonstration purposes only so the Sample App can get information about what is happening in the processor.
-//                    // In the code in your own App, you can pass around signals, flags, intermediates, and results however you would like.
-//                    //
-////                    sampleAppActivity.setLatestServerResult(responseJSON);
-//
-//                    boolean didSucceed = responseJSON.getBoolean("success");
-//
-//                    if (didSucceed == true) {
-//                        // CASE:  Success!  The Liveness Check was performed and the User Proved Liveness.
-//
-//                        Log.d("ZoomSDK", "Liveness did succeed");
-//                        // DEVELOPER NOTE:  These properties are for demonstration purposes only so the Sample App can get information about what is happening in the processor.
-//                        // In the code in your own App, you can pass around signals, flags, intermediates, and results however you would like.
-//                        //
-//                        isSuccess = true;
-//
-//                        FaceTecCustomization.overrideResultScreenSuccessMessage = "Liveness\nConfirmed";
-//                        faceScanResultCallback.succeed();
-//                    }
-//                    else if (didSucceed == false) {
-//                        Log.d("ZoomSDK", "Liveness did NOT succeed");
-//                        // CASE:  In our Sample code, "success" being present and false means that the User Needs to Retry.
-//                        // Real Users will likely succeed on subsequent attempts after following on-screen guidance.
-//                        // Attackers/Fraudsters will continue to get rejected.
-//                        faceScanResultCallback.retry();
-//                    }
-//                    else {
-//                        // CASE:  UNEXPECTED response from API.  Our Sample Code keys of a success boolean on the root of the JSON object --> You define your own API contracts with yourself and may choose to do something different here based on the error.
-//                        faceScanResultCallback.cancel();
-//                    }
-//                }
-//                catch(JSONException e) {
-//                    // CASE:  Parsing the response into JSON failed --> You define your own API contracts with yourself and may choose to do something different here based on the error.  Solid server-side code should ensure you don't get to this case.
-//                    e.printStackTrace();
-//                    Log.d("FaceTecSDKSampleApp", "Exception raised while attempting to parse JSON result.");
-//                    faceScanResultCallback.cancel();
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(Call call, IOException e) {
-//                // CASE:  Network Request itself is erroring --> You define your own API contracts with yourself and may choose to do something different here based on the error.
-//                Log.d("FaceTecSDKSampleApp", "Exception raised while attempting HTTPS call.");
-//                faceScanResultCallback.cancel();
-//            }
-//        });
 
     //
     // Part 9:  For better UX, update the User if the upload is taking a while.  You are free to customize and enhance this behavior to your liking.

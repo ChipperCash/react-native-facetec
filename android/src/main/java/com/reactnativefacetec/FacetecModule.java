@@ -42,7 +42,6 @@ public class FacetecModule extends ReactContextBaseJavaModule {
     super(context);
     reactContext = context;
     ThemeHelpers themeHelpers = new ThemeHelpers();
-    themeHelpers.setAppTheme("Sample Bank");
   }
 
   @Override
@@ -129,8 +128,9 @@ public class FacetecModule extends ReactContextBaseJavaModule {
     }));
   }
 
-  // @ReactMethod
+  @ReactMethod
   public void UpdateLoadingUI(boolean success) {
+    Log.d("ZoomSDK", "Update loading UI was called");
     latestProcessor.updateLoadingUI(success);
   }
 }
