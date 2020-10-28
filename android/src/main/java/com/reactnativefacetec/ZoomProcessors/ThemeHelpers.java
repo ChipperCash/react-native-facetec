@@ -28,7 +28,7 @@ public class ThemeHelpers {
     public ZoomCustomization getCustomizationForTheme(String theme) {
         ZoomCustomization currentCustomization = new ZoomCustomization();
 
-            int[] retryScreenSlideshowImages = new int[]{R.drawable.zoom_ideal_1, R.drawable.zoom_ideal_2, R.drawable.zoom_ideal_3, R.drawable.zoom_ideal_4, R.drawable.zoom_ideal_5};
+            int[] retryScreenSlideshowImages = new int[]{R.drawable.zoom_ideal_1, R.drawable.zoom_ideal_2, R.drawable.zoom_ideal_3};
 
             int outerBackgroundColor = Color.parseColor("#ffffff");
 
