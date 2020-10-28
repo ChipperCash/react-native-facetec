@@ -21,8 +21,6 @@ public class ThemeHelpers {
 
   public void setAppTheme(String theme) {
         ZoomGlobalState.currentCustomization = getCustomizationForTheme(theme);
-        ZoomCustomization currentLowLightCustomization = getLowLightCustomizationForTheme(theme);
-
         ZoomSDK.setCustomization(ZoomGlobalState.currentCustomization);
         ZoomSDK.setLowLightCustomization(ZoomGlobalState.currentCustomization);
     }
