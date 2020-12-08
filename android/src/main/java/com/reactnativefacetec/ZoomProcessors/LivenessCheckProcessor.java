@@ -29,21 +29,25 @@ public class LivenessCheckProcessor extends Processor implements ZoomFaceMapProc
     SessionTokenErrorCallback sessionTokenErrorCallback;
     private boolean _isSuccess = false;
 
-    public LivenessCheckProcessor(final Context context, final SessionTokenErrorCallback sessionTokenErrorCallback, SessionTokenSuccessCallback sessionTokenSuccessCallback) {
+    public LivenessCheckProcessor(final Context context, String sessionToken, final SessionTokenErrorCallback sessionTokenErrorCallback, SessionTokenSuccessCallback sessionTokenSuccessCallback) {
         this.sessionTokenSuccessCallback = sessionTokenSuccessCallback;
         this.sessionTokenErrorCallback = sessionTokenErrorCallback;
-        NetworkingHelpers.getSessionToken(new NetworkingHelpers.SessionTokenCallback() {
-            @Override
-            public void onResponse(String sessionToken) {
-                // Launch the ZoOm Session.
-                ZoomSessionActivity.createAndLaunchZoomSession(context, LivenessCheckProcessor.this, sessionToken);
-            }
 
-            @Override
-            public void onError() {
-                sessionTokenErrorCallback.onError("LivenessCheckProcessor");
-            }
-        });
+        // Launch the ZoOm Session.
+        ZoomSessionActivity.createAndLaunchZoomSession(context, LivenessCheckProcessor.this, sessionToken);
+
+        // NetworkingHelpers.getSessionToken(new NetworkingHelpers.SessionTokenCallback() {
+        //     @Override
+        //     public void onResponse(String sessionToken) {
+        //         // Launch the ZoOm Session.
+        //         ZoomSessionActivity.createAndLaunchZoomSession(context, LivenessCheckProcessor.this, sessionToken);
+        //     }
+
+        //     @Override
+        //     public void onError() {
+        //         sessionTokenErrorCallback.onError("LivenessCheckProcessor");
+        //     }
+        // });
     }
 
     public boolean isSuccess() {
