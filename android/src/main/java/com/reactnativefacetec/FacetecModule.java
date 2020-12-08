@@ -103,10 +103,7 @@ public class FacetecModule extends ReactContextBaseJavaModule {
         this.onSuccess = onSuccess;
         this.onFail = onFail;
 
-        Log.d("ZoomSDK", "Do livenesss check token" + sessionToken);
-        Log.d("ZoomSDK", "Do livenesss check onSuccess" + onSuccess);
-        Log.d("ZoomSDK", "Do livenesss check onFail" + onFail);
-        // latestProcessor = new LivenessCheckProcessor( getCurrentActivity(), sessionToken, sessionTokenErrorCallback, sessionTokenSuccessCallback);
+        latestProcessor = new LivenessCheckProcessor( getCurrentActivity(), sessionToken, sessionTokenErrorCallback, sessionTokenSuccessCallback);
     }
 
     @ReactMethod

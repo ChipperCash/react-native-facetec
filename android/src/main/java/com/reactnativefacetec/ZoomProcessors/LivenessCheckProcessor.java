@@ -35,19 +35,6 @@ public class LivenessCheckProcessor extends Processor implements ZoomFaceMapProc
 
         // Launch the ZoOm Session.
         ZoomSessionActivity.createAndLaunchZoomSession(context, LivenessCheckProcessor.this, sessionToken);
-
-        // NetworkingHelpers.getSessionToken(new NetworkingHelpers.SessionTokenCallback() {
-        //     @Override
-        //     public void onResponse(String sessionToken) {
-        //         // Launch the ZoOm Session.
-        //         ZoomSessionActivity.createAndLaunchZoomSession(context, LivenessCheckProcessor.this, sessionToken);
-        //     }
-
-        //     @Override
-        //     public void onError() {
-        //         sessionTokenErrorCallback.onError("LivenessCheckProcessor");
-        //     }
-        // });
     }
 
     public boolean isSuccess() {
