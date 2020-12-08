@@ -5,8 +5,8 @@ export function init(licenseText, onSuccess, onFail) {
   Facetec.Init(licenseText, onSuccess, onFail);
 }
 
-export function livenessCheck(onSuccess, onFail) {
-  Facetec.LivenessCheck(onSuccess, onFail);
+export function livenessCheck(sessionToken, onSuccess, onFail) {
+  Facetec.LivenessCheck(sessionToken, onSuccess, onFail);
 }
 
 export function updateLoadingUI(success) {
