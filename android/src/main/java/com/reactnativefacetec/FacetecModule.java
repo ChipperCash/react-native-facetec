@@ -99,7 +99,7 @@ public class FacetecModule extends ReactContextBaseJavaModule {
   }
 
     @ReactMethod
-    public void LivenessCheck(String, sessionToken, Callback onSuccess, Callback onFail) {
+    public void LivenessCheck(String sessionToken, Callback onSuccess, Callback onFail) {
         this.onSuccess = onSuccess;
         this.onFail = onFail;
 
