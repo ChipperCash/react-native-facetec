@@ -1,6 +1,6 @@
 {
   "name": "@chippercash/react-native-facetec",
-  "version": "0.2.0",
+  "version": "0.2.0-0.0.1",
   "description": "facetec module bridge",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
