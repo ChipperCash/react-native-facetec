@@ -1,5 +1,5 @@
 {
-  "name": "react-native-facetec",
+  "name": "@chippercash/react-native-facetec",
   "version": "0.2.0",
   "description": "facetec module bridge",
   "main": "lib/commonjs/index",
@@ -7,6 +7,9 @@
   "types": "lib/typescript/src/index.d.ts",
   "react-native": "src/index",
   "source": "src/index",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/"
+  },
   "files": [
     "src",
     "lib",
@@ -36,13 +39,16 @@
     "face-recognition",
     "face-matching"
   ],
-  "repository": "https://github.com/maherzaidoune/react-native-facetec",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ChipperCash/react-native-facetec.git"
+  },
   "author": "maherzaidoune <maherzaidoune@gmail.com> (https://github.com/maherzaidoune)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/maherzaidoune/react-native-facetec/issues"
+    "url": "https://github.com/ChipperCash/react-native-facetec/issues"
   },
-  "homepage": "https://github.com/maherzaidoune/react-native-facetec#readme",
+  "homepage": "https://github.com/ChipperCash/react-native-facetec#readme",
   "devDependencies": {
     "@commitlint/config-conventional": "^8.3.4",
     "@react-native-community/bob": "^0.16.2",
