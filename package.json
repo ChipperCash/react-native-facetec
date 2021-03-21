@@ -1,6 +1,6 @@
 {
   "name": "@chippercash/react-native-facetec",
-  "version": "0.2.0-0.0.1",
+  "version": "0.2.0-0.0.2",
   "description": "facetec module bridge",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
@@ -29,7 +29,8 @@
     "release": "release-it",
     "example": "yarn --cwd example",
     "pods": "cd example && pod-install --quiet",
-    "bootstrap": "yarn example && yarn && yarn pods"
+    "bootstrap": "yarn example && yarn && yarn pods",
+    "prepare": "bob build"
   },
   "keywords": [
     "react-native",
@@ -84,7 +85,7 @@
   "husky": {
     "hooks": {
       "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
-      "pre-commit": "yarn lint && yarn typescript"
+      "pre-commit": "yarn lint"
     }
   },
   "commitlint": {
@@ -127,7 +128,11 @@
       ]
     }
   },
-  "eslintIgnore": ["node_modules/", "lib/"],
+  "eslintIgnore": [
+    "node_modules/",
+    "lib/",
+    "example/"
+  ],
   "prettier": {
     "quoteProps": "consistent",
     "singleQuote": true,
@@ -138,6 +143,9 @@
   "@react-native-community/bob": {
     "source": "src",
     "output": "lib",
-    "targets": ["commonjs", "module", "typescript"]
+    "targets": [
+      "commonjs",
+      "module"
+    ]
   }
 }
