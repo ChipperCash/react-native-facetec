@@ -1,12 +1,15 @@
 {
-  "name": "react-native-facetec",
-  "version": "0.2.0",
+  "name": "@chippercash/react-native-facetec",
+  "version": "0.2.0-0.0.2",
   "description": "facetec module bridge",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
   "types": "lib/typescript/src/index.d.ts",
   "react-native": "src/index",
   "source": "src/index",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/"
+  },
   "files": [
     "src",
     "lib",
@@ -26,7 +29,8 @@
     "release": "release-it",
     "example": "yarn --cwd example",
     "pods": "cd example && pod-install --quiet",
-    "bootstrap": "yarn example && yarn && yarn pods"
+    "bootstrap": "yarn example && yarn && yarn pods",
+    "prepare": "bob build"
   },
   "keywords": [
     "react-native",
@@ -36,13 +40,16 @@
     "face-recognition",
     "face-matching"
   ],
-  "repository": "https://github.com/maherzaidoune/react-native-facetec",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ChipperCash/react-native-facetec.git"
+  },
   "author": "maherzaidoune <maherzaidoune@gmail.com> (https://github.com/maherzaidoune)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/maherzaidoune/react-native-facetec/issues"
+    "url": "https://github.com/ChipperCash/react-native-facetec/issues"
   },
-  "homepage": "https://github.com/maherzaidoune/react-native-facetec#readme",
+  "homepage": "https://github.com/ChipperCash/react-native-facetec#readme",
   "devDependencies": {
     "@commitlint/config-conventional": "^8.3.4",
     "@react-native-community/bob": "^0.16.2",
@@ -78,7 +85,7 @@
   "husky": {
     "hooks": {
       "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
-      "pre-commit": "yarn lint && yarn typescript"
+      "pre-commit": "yarn lint"
     }
   },
   "commitlint": {
@@ -121,7 +128,11 @@
       ]
     }
   },
-  "eslintIgnore": ["node_modules/", "lib/"],
+  "eslintIgnore": [
+    "node_modules/",
+    "lib/",
+    "example/"
+  ],
   "prettier": {
     "quoteProps": "consistent",
     "singleQuote": true,
@@ -132,6 +143,9 @@
   "@react-native-community/bob": {
     "source": "src",
     "output": "lib",
-    "targets": ["commonjs", "module", "typescript"]
+    "targets": [
+      "commonjs",
+      "module"
+    ]
   }
 }
