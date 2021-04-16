@@ -107,8 +107,12 @@ public class FacetecModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void UpdateLoadingUI(boolean success) {
-        latestProcessor.updateLoadingUI(success);
+    public void UpdateLoadingUI(boolean success, Callback onFail) {
+        try {
+            latestProcessor.updateLoadingUI(success);
+        } catch(Exception e){
+            onFail.invoke(e.getMessage());
+        }
     }
 
     Processor.SessionTokenErrorCallback sessionTokenErrorCallback = new Processor.SessionTokenErrorCallback() {
