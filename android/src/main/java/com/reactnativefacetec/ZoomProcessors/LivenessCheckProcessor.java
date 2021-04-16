@@ -43,12 +43,16 @@ public class LivenessCheckProcessor extends Processor implements ZoomFaceMapProc
 
     // Update zoom loading UI to either success or failed
     public void updateLoadingUI(final boolean success) {
-        if (success) {
-            ZoomCustomization.overrideResultScreenSuccessMessage = "Liveness\nConfirmed";
-            this.zoomFaceMapResultCallback.succeed();
-        } else {
-            this.zoomFaceMapResultCallback.retry();
-        }
+      try {
+          if (success) {
+              ZoomCustomization.overrideResultScreenSuccessMessage = "Liveness\nConfirmed";
+              this.zoomFaceMapResultCallback.succeed();
+          } else {
+              this.zoomFaceMapResultCallback.retry();
+          }
+      } catch(Exception e) {
+          throw e;
+      }
     }
 
     // Required function that handles calling ZoOm Server to get result and decides how to continue.

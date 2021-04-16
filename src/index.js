@@ -9,8 +9,8 @@ export function livenessCheck(sessionToken, onSuccess, onFail) {
   Facetec.LivenessCheck(sessionToken, onSuccess, onFail);
 }
 
-export function updateLoadingUI(success) {
-  Facetec.UpdateLoadingUI(success);
+export function updateLoadingUI(success, onFail) {
+  Facetec.UpdateLoadingUI(success, onFail);
 }
 
 export default {
